@@ -1,6 +1,6 @@
 // Main Application
 const App = {
-    API_BASE: '/api',
+    API_BASE: 'https://caa8c91a1b38cbcc31791e886fceb9a4.serveo.net/api',
     userFilters: {},
 
     // Initialize application

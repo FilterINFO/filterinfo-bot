@@ -1,6 +1,6 @@
 // News Page Management
 const NewsPage = {
-    API_BASE: '/api',
+    API_BASE: 'https://caa8c91a1b38cbcc31791e886fceb9a4.serveo.net/api',
     currentFilters: {
         timePeriod: '1',
         sortBy: 'newest'
