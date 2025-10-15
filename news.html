@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FilterINFO - Новости</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="news-header">
+            <button class="back-btn" onclick="NewsPage.goBack()">
+                ⬅️ Назад
+            </button>
+            <div class="news-title">📰 Последние новости</div>
+        </div>
+
+        <div class="filters-bar">
+            <select class="filter-select" id="timePeriod" onchange="NewsPage.applyFilters()">
+                <option value="1">За последний час</option>
+                <option value="24">За сегодня</option>
+                <option value="168">За неделю</option>
+                <option value="720">За месяц</option>
+                <option value="all">Все время</option>
+            </select>
+            
+            <select class="filter-select" id="sortBy" onchange="NewsPage.applyFilters()">
+                <option value="newest">По времени (новые)</option>
+                <option value="oldest">По времени (старые)</option>
+                <option value="importance">По важности</option>
+                <option value="source">По источникам</option>
+                <option value="country">По странам</option>
+            </select>
+        </div>
+
+        <div class="news-info">
+            Показано: <span id="shownNewsCount">0</span> из <span id="totalNewsCount">0</span>
+        </div>
+
+        <div class="news-container" id="newsContainer">
+            <div class="loading">🔄 Загрузка новостей...</div>
+        </div>
+    </div>
+
+    <script src="js/news.js"></script>
+    <script src="js/filters.js"></script>
+</body>
+</html>

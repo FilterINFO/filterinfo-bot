@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FilterINFO - Главная</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 FilterINFO</h1>
+            <p>Ваш персональный агрегатор новостей</p>
+        </div>
+
+        <!-- Total News Banner -->
+        <div class="total-news-banner">
+            <div class="total-news-count" id="totalNewsCount">0</div>
+            <div class="total-news-label">новостей за час</div>
+        </div>
+
+        <!-- Sources Section -->
+        <div class="section" id="sourcesSection">
+            <div class="section-header" onclick="App.toggleSection('sourcesSection')">
+                <div class="section-title">📡 Источники</div>
+                <div class="section-arrow">▼</div>
+            </div>
+            <div class="section-content" id="sourcesContent">
+                <div class="loading">Загрузка источников...</div>
+            </div>
+        </div>
+
+        <!-- Topics Section -->
+        <div class="section" id="topicsSection">
+            <div class="section-header" onclick="App.toggleSection('topicsSection')">
+                <div class="section-title">📂 Темы</div>
+                <div class="section-arrow">▼</div>
+            </div>
+            <div class="section-content" id="topicsContent">
+                <div class="loading">Загрузка тем...</div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn apply" onclick="Filters.applyFilters()">
+                ✅ Применить фильтры
+            </button>
+            <button class="action-btn primary" onclick="App.openNewsPage()">
+                📰 Читать новости (<span id="filteredNewsCount">0</span>)
+            </button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/filters.js"></script>
+</body>
+</html>
