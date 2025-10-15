@@ -8,8 +8,15 @@ logger = logging.getLogger(__name__)
 def create_app(news_repository, sources_repository, user_filters_repository):
     app = Flask(__name__)
     
-    # ✅ ВКЛЮЧАЕМ CORS ДЛЯ ВСЕХ ДОМЕНОВ
-    CORS(app)
+    # ✅ ВКЛЮЧАЕМ CORS ДЛЯ GITHUB PAGES И LOCALHOST
+    CORS(app, origins=[
+        "https://filterinfo.github.io",
+        "https://filterinfo.github.io/filterinfo-bot",
+        "http://localhost:8000", 
+        "http://localhost:8080",
+        "http://127.0.0.1:8000",
+        "http://127.0.0.1:8080"
+    ])
     
     WEB_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'web')
     WEB_DIR = os.path.abspath(WEB_DIR)
@@ -49,12 +56,10 @@ def create_app(news_repository, sources_repository, user_filters_repository):
     def api_news():
         """API для получения новостей"""
         try:
-            news = news_repository.get_news(50)  # Увеличил лимит для тестирования
+            news = news_repository.get_news(50)
             for item in news:
-                # Возвращаем время в UTC
                 item['time_utc'] = item.get('published_at') or item.get('created_at')
                 item['has_exact_time'] = bool(item.get('published_at'))
-                # Добавляем категорию если есть
                 if 'category' not in item:
                     item['category'] = 'разное'
 
@@ -85,18 +90,15 @@ def create_app(news_repository, sources_repository, user_filters_repository):
             logger.error(f"Ошибка в /api/categories: {e}")
             return jsonify({'error': 'Ошибка загрузки категорий'}), 500
     
-    # ✅ НОВЫЙ ENDPOINT ДЛЯ ФИЛЬТРОВ
     @app.route('/api/filters/<int:user_id>', methods=['GET', 'POST'])
     def api_user_filters(user_id):
         """API для работы с фильтрами пользователя"""
         try:
             if request.method == 'GET':
-                # Получить фильтры из БД
                 filters = user_filters_repository.get_user_filters(user_id)
                 return jsonify(filters)
             
             elif request.method == 'POST':
-                # Сохранить фильтры в БД
                 filters = request.get_json()
                 user_filters_repository.save_user_filters(user_id, filters)
                 return jsonify({'status': 'success'})
@@ -105,7 +107,6 @@ def create_app(news_repository, sources_repository, user_filters_repository):
             logger.error(f"Ошибка в /api/filters: {e}")
             return jsonify({'error': 'Ошибка работы с фильтрами'}), 500
     
-    # ✅ ДОПОЛНИТЕЛЬНЫЙ ENDPOINT ДЛЯ ТЕСТИРОВАНИЯ
     @app.route('/api/debug')
     def api_debug():
         """Debug endpoint для проверки работы API"""
